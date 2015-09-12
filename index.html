@@ -1,108 +1,106 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <style>
-      @import url(http://fonts.googleapis.com/css?family=Droid+Sans+Mono);
-#edit-with-js-bin {
-  display: none !important;
-}
+<!doctype html>
+<html lang="en">
 
-html, body {
-  width: 100%;
-  height: 100%;
+<head>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+  <title>John Doe</title>
+  <style>* {
   margin: 0;
   padding: 0;
-  background: #262626;
-  font-family: 'Droid Sans Mono', sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
-h1 {
-  font-size: 3em;
-}
-
-h6 {
-  font-size: .9em;
-}
-
-.london {
-  background: url(http://www.onelifesuccess.net/wp-content/uploads/2014/04/London-skyline.jpg) no-repeat;
-  background-size: cover;
-  width: 100%;
+html,
+body {
   height: 100%;
   margin: 0;
-  padding: 0;
-  display: none;
-}
-
-.container {
   width: 100%;
-  margin: auto;
-  padding: 10px 30px;
 }
 
-.header {
-  position: relative;
-  width: 100%;
-  text-align: left;
-  color: #F2F1EF;
-  text-shadow: 0 2px 2px rgba(0, 0, 0, 0.4);
-  display: block;
+body {
+  font: 12px "Monaco", Inconsolata, monospace;
+  background: #083952;
+  color: #f8f8f8;
 }
 
-    </style>
-    
-    <script>
-      var SPY = function() {
-  function e(a, d, b) {
-    var c, f, g, h;
-    b == a.length ? k.animationComplete = !0 : (g = d.innerHTML, h = Math.floor(21 * Math.random() + 5), c = 32 === a[b] ? 32 : a[b] - h, f = setInterval(function() {
-      d.innerHTML = g + String.fromCharCode(c);
-      c == a[b] ? (clearInterval(f), c = 32, b++, setTimeout(function() {
-        e(a, d, b);
-      }, 10)) : c++;
-    }, 5));
-  }
-  var k = {};
-  return k = {animationComplete:!1, text:function(a) {
-    this.animationComplete = !1;
-    a = document.getElementById(a);
-    for (var d = a.innerHTML, b = [], c = 0;c < d.length;c++) {
-      b.push(d.charCodeAt(c));
-    }
-    a.innerHTML = "";
-    e(b, a, 0);
-  }};
-}();
+.terminal {
+  background: transparent;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-top: -50px;
+  margin-left: -125px;
+  text-shadow: 0px 0px 2px rgba(255, 255, 255, 0.4);
+  width: 250px;
+  font: inherit;
+  border: none;
+  outline: none;
+  color: inherit;
+}
 
+.dollar:before {
+  content: '$';
+  color: #52a563;
+}
 
-$( 'document' ).ready(function() {
-  
-  // Hide header
-  $( '.header' ).hide();
-  // Transition background
-  $( '.london' ).fadeIn( 1200 );
-  
-  
-  // Timeout for crypto text
-  setTimeout( function() { 
-    $( '.header' ).fadeIn( 'slow' );
-      SPY.text( 'op' );
-  }, 1000);
-  
-});
-    </script>
+.home {
+  color: #e28d47;
+  padding-bottom: 3px;
+}
 
-    <title>5c1-nd4.GitHub.io by 5c1-nd4</title>
-  </head>
+a {
+  font: 12px "Monaco", Inconsolata, monospace;
+  text-decoration: underline;
+  color: #f8f8f8;
+}
+</style>
 
-  <body>
+<script>
+  // Typewriter.js
+// https://github.com/ronv/Typewriter.js
 
-  <section class="london">
-  <div class="container">
-    <h1 id="op" class="header">London,England</h1>
+$.fn.typewriter = function() {
+  this.each(function() {
+    var c = $(this),
+      b = c.html(),
+      a = 0,
+      d = 0;
+    c.html("");
+    var e = function() {
+      if ("<" == b.substring(a, a + 1)) {
+        var f = new RegExp(/<span class="instant"/),
+          g = new RegExp(/<span class="clear"/);
+        if (b.substring(a, b.length).match(f)) a += b.substring(a, b.length).indexOf("</span>") + 7;
+        else if (b.substring(a, b.length).match(g)) d = a, a += b.substring(a, b.length).indexOf("</span>") + 7;
+        else
+          for (;
+            ">" != b.substring(a, a + 1);) a++
+      }
+      c.html(b.substring(d, a++) + (a & 1 ? "_" : ""));
+      a >= b.length || setTimeout(e, 70 + 100 *
+        Math.random())
+    };
+    e()
+  });
+  return this
+};
+$(".terminal").typewriter();
+</script>
+</head>
+
+<body>
+  <div class="terminal">
+    <span class="dollar"></span> hi there, i'm john
+    <br/>
+    <span class="dollar"></span> a web developer
+    <br/>
+    <span class="dollar"></span> based in uk
+    <br/>
+    <span class="dollar"></span> i drink a lot of tea
+    <br/>
+    <span class="dollar"></span> and build beautiful websites
   </div>
-  </section>
 
-    
-  </body>
+</body>
+
 </html>
