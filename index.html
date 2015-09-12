@@ -4,143 +4,105 @@
 <head>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
   <title>John Doe</title>
-  <style>* {
-  margin: 0;
-  padding: 0;
-  background: #000;
-}
+  <style>
+  @import compass
 
-.header {
-  margin-left: 15px;
-  padding-bottom: 25px;
-  font-size: 50px;
-  font-family: 'Sarpanch', sans-serif;
-}
+$terminal-font-size: 18px
+$cursor-size: 28px
 
-.terminal {
-  position: absolute;
-  width: 90%;
-  height: 100%;
-  font-family: 'Share Tech', sans-serif;
-  color: #FB7200;
-}
+// Font smoothing
+$fs: antialiased
+  
+// Keyframes mixin
+=keyframes($id)
+  @-webkit-keyframes #{$id}
+    @content
+  @-moz-keyframes #{$id}
+    @content
+  @-ms-keyframes #{$id}
+    @content
+  @keyframes #{$id}
+    @content
+  
+// Animation mixin
+=animation($content)
+  -webkit-animation: $content
+  -moz-animation: $content
+  -o-animation: $content
+  animation: $content
+  
+body
+  cursor: text
+  counter-reset: input
+  margin: 20px
+  padding: 0
+  background: lavenderblush
+  -moz-font-smoothing: $fs
+  -webkit-font-smoothing: $fs
+  font-smoothing: $fs
+  background: #002728
 
-.terminal-line {
-  display: block;
-  margin-left: 20px;
-  margin-top: 6px;
-  letter-spacing: 2.5px;
-  font-size: 16px;
-}
+.terminal
+  float: left
+  margin: 0
+  padding: 0
+  font-family: Menlo, Courier New
+  font-size: $terminal-font-size
+  text-rendering: optimizeLegibility
+  font-weight: bold
+  color: white
+  
+  > .terminal--input
+    counter-increment: input
+      
+    &:before
+      content: '[' counter(input) '] $ '
+    
+    &:last-child:after
+      +animation(blink .75s infinite)
+      margin-left: 5px
+      width: $cursor-size
+      content: '|'
+      background: white
+        
+  > .terminal--output
+    &.is-console:before
+      margin-right: 10px
+      content: '>'
+      
+    &.is-not-defined:before
+      content: 'undefined'
+      color: rgba(white, .5)
+        
++keyframes(blink)
+  from
+    opacity: 1
+  to
+    opacity: 0
 </style>
 
-<script>
-// TERMINAL TYPING CODE BY STEVE DEKORTE
- 
-function getAllElementsWithAttribute(attribute)
-{
-  var matchingElements = [];
-  
-  var allElements = document.getElementsByTagName('span');
-  
-  for (var i = 0, n = allElements.length; i < n; i++)
-  {
-    if (allElements[i].getAttribute(attribute))
-    {
-      matchingElements.push(allElements[i]);
-    }
-  }
-  return matchingElements;
-}
-
-var terminalElements = getAllElementsWithAttribute("terminal");
-
-function terminals_init()
-{
-  var elements = terminalElements;
-  for (var i = 0; i < elements.length; i++)
-  {
-    var e = elements[i]
-    e.completeHTML = e.innerHTML
-    e.innerHTML = ""
-    e.i = 0
-  }
-
-}
-
-function terminals_start()
-{
-  //terminalIntervalFunction = function(){ terminals_next() }
-  //setInterval(terminalIntervalFunction, 1000/60);
-  terminals_next()
-}
-
-function terminals_next()
-{
-  var done = true
-  var elements = terminalElements;
-
-  for (var i = 0; i < elements.length && done == true; i++)
-  {
-    var e = elements[i]
-
-    e.i ++
-
-    if (e.innerHTML.length >= e.completeHTML.length)
-    {
-      e.innerHTML = e.completeHTML
-    }
-    else
-    {
-      var s =  e.completeHTML.substring(0, e.i) 
-
-      if (s.slice(-1) == " ") 
-      {
-        if(e.innerHTML.length % 6 == 0 ) { s = s + "" } else { s = s + "|" }
-      }
-      else
-      {
-        s = s + "|"
-      }
-
-      e.innerHTML = s
-      e.parentNode.style.display = 'none'
-      e.parentNode.style.display = 'block'
-      done = false
-    }
-  }
-
-  if (!done)
-  {
-    //window.clearInterval(terminalIntervalFunction)
-    setTimeout(terminals_next, 800/20)
-  }
-}
-
-terminals_init()
-
-window.onload = function() { terminals_start() };
-</script>
 </head>
 
 <body>
-  <link href='http://fonts.googleapis.com/css?family=Sarpanch:400,600' rel='stylesheet' type='text/css'>
-<link href='http://fonts.googleapis.com/css?family=Share+Tech' rel='stylesheet' type='text/css'>
-<div class="terminal">
-  <div class="header">
-    <h1>CONSOLE//</h1>
-  </div>
-  <span terminal=1 class="terminal-line">
-    Hello stranger.
-  <br /><br />
-    This is a simple terminal typing test with plain JavaScript.
-  <br /><br />
-    Thx to Steve Dekorte for the JS Code!
-    <br /><br /><br />
-    starting...
-    <br /><br />
-    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-  </span>
+<div class=" terminal ">
+  <p class=" terminal--header ">Last login: Sun Sep 15 11:11:50 on ttys000</p>
+  <p class=" terminal--input ">whoami</p>
+  <p class=" terminal--output ">Rafael Rinaldi</p>
+  <p class=" terminal--input ">find ~ -name secret-of-life</p>
+  <p class=" terminal--output ">42</p>
+  <p class=" terminal--input ">which planet</p>
+  <p class=" terminal--output ">/usr/milky-way/earth</p>
+  <p class=" terminal--input ">node</p>
+  <p class=" terminal--output is-console ">var sprintf = require('util').format;</p>
+  <p class=" terminal--output is-not-defined "></p>
+  <p class=" terminal--output is-console ">var msg = "CSS3 is %s!";</p>
+  <p class=" terminal--output is-not-defined "></p>
+  <p class=" terminal--output is-console ">console.log(sprintf(msg, 'awesome'));</p>
+  <p class="terminal--output">CSS3 is awesome!</p>
+  <p class=" terminal--output is-not-defined "></p>
+  <p class=" terminal--output is-console "></p>
+  <p class=" terminal--output ">(^C again to quit)</p>
+  <p class=" terminal--input "></p>
 </div>
 </body>
 
